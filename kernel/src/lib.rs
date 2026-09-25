@@ -1,6 +1,6 @@
 #![no_std]
 
-#[macro_use]
 pub mod console;
-pub mod lang_items;
+pub mod init;
+pub mod panic;
 pub mod sbi;
