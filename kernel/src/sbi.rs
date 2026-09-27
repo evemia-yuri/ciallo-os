@@ -1,5 +1,5 @@
 use sbi_rt::legacy;
-use sbi_rt::{NoReason, Shutdown, SystemFailure, system_reset};
+use sbi_rt::{self, NoReason, Shutdown, SystemFailure};
 
 pub fn console_putchar(ch: usize) {
     // TODO: Replace the function which is deprecated.
@@ -9,9 +9,9 @@ pub fn console_putchar(ch: usize) {
 
 pub fn shutdown(failure: bool) -> ! {
     if !failure {
-        system_reset(Shutdown, NoReason);
+        sbi_rt::system_reset(Shutdown, NoReason);
     } else {
-        system_reset(Shutdown, SystemFailure);
+        sbi_rt::system_reset(Shutdown, SystemFailure);
     }
     unreachable!();
 }

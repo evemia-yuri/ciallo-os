@@ -1,4 +1,4 @@
-use core::ptr::{addr_of_mut, write_bytes};
+use core::ptr::{self, addr_of_mut};
 
 /// Clears the `.bss` section to zero.
 ///
@@ -19,6 +19,6 @@ pub fn clear_bss() {
         // We always assume the linker script is reliable.
         // If it is not, crash and raise an error as soon as possible.
         let size = end_ptr.addr() - start_ptr.addr();
-        write_bytes(start_ptr, 0, size);
+        ptr::write_bytes(start_ptr, 0, size);
     }
 }
