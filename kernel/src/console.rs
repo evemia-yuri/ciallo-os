@@ -6,8 +6,8 @@ struct Stdout;
 
 impl Write for Stdout {
     fn write_str(&mut self, s: &str) -> fmt::Result {
-        for ch in s.chars() {
-            sbi::console_putchar(ch as usize);
+        for ch in s.bytes() {
+            sbi::console_put_byte(ch);
         }
         Ok(())
     }
