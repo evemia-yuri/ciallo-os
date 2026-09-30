@@ -5,7 +5,7 @@ use core::arch::global_asm;
 
 use kernel::init;
 
-global_asm!(include_str!("entry.asm"));
+global_asm!(include_str!("init/entry.asm"));
 
 #[unsafe(no_mangle)]
 pub fn kernel_main() -> ! {
