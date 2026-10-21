@@ -7,7 +7,7 @@ pub mod context;
 
 global_asm!(include_str!("trap/trap.asm"));
 
-pub fn init() {
+pub fn init_trap() {
     unsafe extern "C" {
         static mut __alltraps: [u8; 0];
     }
