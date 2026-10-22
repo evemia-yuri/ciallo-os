@@ -1,7 +1,7 @@
 use core::panic::PanicInfo;
 
-use crate::{log_error, println};
 use crate::sbi;
+use crate::{log_error, println};
 
 #[panic_handler]
 fn panic(_info: &PanicInfo) -> ! {

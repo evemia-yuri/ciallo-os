@@ -5,8 +5,8 @@ use riscv::interrupt::{Exception, Interrupt, Trap};
 use riscv::register::stvec::{self, Stvec, TrapMode};
 use riscv::register::{scause, stval};
 
-use crate::{log_info, log_warning, println};
 use crate::trap::context::TrapContext;
+use crate::{log_info, log_warning, println};
 
 pub mod context;
 
@@ -43,7 +43,8 @@ pub fn trap_handler(cx: &mut TrapContext) -> &mut TrapContext {
         Trap::Exception(Exception::StoreFault) | Trap::Exception(Exception::StorePageFault) => {
             log_warning!(
                 "[kernel] Page fault in application. address: {:#x}, instruction: {:#x}.",
-                stval, cx.sepc
+                stval,
+                cx.sepc
             );
         }
         Trap::Exception(Exception::IllegalInstruction) => {
