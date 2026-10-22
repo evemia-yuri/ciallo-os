@@ -43,8 +43,3 @@ pub fn kernel_main() -> ! {
         core::hint::spin_loop();
     }
 }
-
-#[test_case]
-fn test_framework_test() {
-    log_info!("Test framework running normally.");
-}

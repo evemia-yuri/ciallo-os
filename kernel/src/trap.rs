@@ -31,7 +31,7 @@ pub fn trap_handler(cx: &mut TrapContext) -> &mut TrapContext {
     let trap: Trap<Interrupt, Exception> = match scause.cause().try_into() {
         Ok(trap) => trap,
         Err(_) => panic!(
-            "Unsupported trap {:?}, stval = {:#x}!",
+            "Unsupported trap {:?}. stval: {:#x}.",
             scause.cause(),
             stval
         ),
@@ -42,7 +42,7 @@ pub fn trap_handler(cx: &mut TrapContext) -> &mut TrapContext {
         }
         Trap::Exception(Exception::StoreFault) | Trap::Exception(Exception::StorePageFault) => {
             log_warning!(
-                "[kernel] Page fault in application. address = {:#x}, instruction = {:#x}.",
+                "[kernel] Page fault in application. address: {:#x}, instruction: {:#x}.",
                 stval, cx.sepc
             );
         }
@@ -51,7 +51,7 @@ pub fn trap_handler(cx: &mut TrapContext) -> &mut TrapContext {
         }
         _ => {
             panic!(
-                "Unsupported trap {:?}, stval = {:#x}, sepc = {:#x}.",
+                "Unsupported trap {:?}. stval: {:#x}, sepc: {:#x}.",
                 trap, stval, cx.sepc
             );
         }
