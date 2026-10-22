@@ -1,4 +1,7 @@
+use core::arch::global_asm;
 use core::ptr::{self, addr_of_mut};
+
+global_asm!(include_str!("init/entry.asm"));
 
 /// Clears the `.bss` section to zero.
 ///

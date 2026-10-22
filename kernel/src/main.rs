@@ -1,25 +1,50 @@
 #![no_std]
 #![no_main]
 
-use core::arch::global_asm;
+#![feature(custom_test_frameworks)]
+#![test_runner(crate::test_runner)]
+#![reexport_test_harness_main = "test_main"]
 
-use kernel::init;
-use kernel::mm::heap_alloc;
-use kernel::println;
-use kernel::trap;
+extern crate alloc;
 
-global_asm!(include_str!("init/entry.asm"));
+mod batch;
+mod config;
+mod console;
+mod init;
+mod log;
+mod mm;
+mod panic;
+mod sbi;
+mod trap;
+
+#[cfg(test)]
+pub fn test_runner(tests: &[&dyn Fn()]) {
+    log_info!("[test] Running {} tests", tests.len());
+    for test in tests {
+        test();
+    }
+    log_info!("[test] Tests finished, exiting...");
+    sbi::shutdown(false);
+}
 
 #[unsafe(no_mangle)]
 pub fn kernel_main() -> ! {
     init::clear_bss();
-    trap::init_trap();
-    heap_alloc::init_heap();
 
-    println!("Hello World!");
-    // panic!("Shutting down!");
+    trap::init_trap();
+    mm::heap_alloc::init_heap();
+
+    log_info!("Kernel running...");
+
+    #[cfg(test)]
+    test_main();
 
     loop {
         core::hint::spin_loop();
     }
+}
+
+#[test_case]
+fn test_framework_test() {
+    log_info!("Test framework running normally.");
 }
