@@ -7,6 +7,7 @@ use crate::mm::frame_allocator::FrameAllocatorError;
 pub mod address;
 pub mod frame_allocator;
 pub mod heap_alloc;
+pub mod page_table;
 
 /// Read the linker-provided kernel end and initialize the global allocator.
 ///
