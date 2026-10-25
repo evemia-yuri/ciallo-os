@@ -13,6 +13,7 @@ pub enum FrameAllocatorError {
     OutOfMemory,
     DoubleFree(PhysPageNum),
     FreeUnallocated(PhysPageNum),
+
     Address(AddressError),
 }
 
