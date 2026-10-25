@@ -1,3 +1,3 @@
 # Ciallo OS
 
-> 一个由 Rust 语言驱动的玩具操作系统
+> A toy operating system driven by Rust language.
