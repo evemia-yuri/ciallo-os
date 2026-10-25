@@ -32,6 +32,7 @@ pub fn kernel_main() -> ! {
 
     trap::init_trap();
     mm::heap_alloc::init_heap();
+    mm::init_frame_allocator().unwrap();
 
     log_info!("Kernel running...");
 
