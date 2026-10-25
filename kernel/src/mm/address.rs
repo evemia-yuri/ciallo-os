@@ -80,7 +80,7 @@ impl TryFrom<usize> for PhysAddr {
 
 impl From<PhysAddr> for usize {
     fn from(pa: PhysAddr) -> Self {
-        pa.0
+        pa.get()
     }
 }
 

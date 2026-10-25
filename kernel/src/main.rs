@@ -6,7 +6,6 @@
 
 extern crate alloc;
 
-mod batch;
 mod config;
 mod console;
 mod init;
