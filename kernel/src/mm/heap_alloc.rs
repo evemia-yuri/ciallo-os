@@ -26,8 +26,8 @@ mod tests {
     use alloc::vec::Vec;
     use core::ptr::addr_of_mut;
 
-    use crate::config::KERNEL_HEAP_SIZE;
     use crate::mm::heap_alloc::HEAP_SPACE;
+    use crate::mm::heap_alloc::KERNEL_HEAP_SIZE;
 
     #[test_case]
     fn test_heap_basic() {
@@ -68,7 +68,7 @@ mod tests {
         let loop_cnt = 1024;
         let size = 1024;
         for _ in 0..loop_cnt {
-            let mut v: Vec<u8> = Vec::with_capacity(size); // 每次分配 1KB
+            let mut v: Vec<u8> = Vec::with_capacity(size);
             v.push(1);
         }
     }

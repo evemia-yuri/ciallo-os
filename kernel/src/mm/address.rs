@@ -1,24 +1,7 @@
-/// Sv39 uses 4 KiB base pages: 2^12 bytes per page.
-const SV39_PAGE_OFFSET_BITS: usize = 12;
-const SV39_PAGE_SIZE: usize = 1 << SV39_PAGE_OFFSET_BITS;
-
-/// Maximum physical-address width assumed by this RISC-V platform reference.
-/// Change this if the target platform exposes a different physical address width.
-const SV39_PA_BITS: usize = 56;
-const SV39_PPN_BITS: usize = SV39_PA_BITS - SV39_PAGE_OFFSET_BITS;
-/// Exclusive upper bound of representable physical byte addresses.
-const SV39_PA_LIMIT: usize = 1 << SV39_PA_BITS;
-/// Number of base pages in the representable physical address range.
-const SV39_PPN_LIMIT: usize = 1 << SV39_PPN_BITS;
-
-/// Sv39 virtual addresses use bits 38:0; bits 63:39 must sign-extend bit 38.
-const SV39_VA_BITS: usize = 39;
-/// VPN is VA[38:12], leaving the low 12 bits for the page offset.
-const SV39_VPN_BITS: usize = SV39_VA_BITS - SV39_PAGE_OFFSET_BITS;
-const SV39_VA_LIMIT: usize = 1 << SV39_VA_BITS;
-const SV39_VPN_LIMIT: usize = 1 << SV39_VPN_BITS;
-/// VPN[26] selects the high canonical half; VPN values below this are low-half.
-const SV39_HALF_VPN_COUNT: usize = 1 << (SV39_VPN_BITS - 1);
+use crate::config::{
+    SV39_PA_LIMIT, SV39_PAGE_OFFSET_BITS, SV39_PAGE_SIZE, SV39_PPN_LIMIT, SV39_VA_BITS,
+    SV39_VPN_HALF_COUNT, SV39_VPN_LIMIT,
+};
 
 #[derive(Debug, Clone, Copy, Eq, PartialEq)]
 pub enum AddressError {
@@ -268,7 +251,7 @@ impl TryFrom<VirtAddr> for VirtPageNum {
 impl From<VirtPageNum> for VirtAddr {
     fn from(vpn: VirtPageNum) -> Self {
         let addr = vpn.get() << SV39_PAGE_OFFSET_BITS;
-        if vpn.get() >= SV39_HALF_VPN_COUNT {
+        if vpn.get() >= SV39_VPN_HALF_COUNT {
             Self(addr | !((1_usize << SV39_VA_BITS) - 1))
         } else {
             Self(addr)
